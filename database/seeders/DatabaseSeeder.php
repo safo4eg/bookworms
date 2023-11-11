@@ -7,6 +7,7 @@ use App\Models\Author;
 use App\Models\AuthorBook;
 use App\Models\Book;
 use App\Models\BookGenre;
+use App\Models\Critique;
 use App\Models\Rating;
 use App\Models\Review;
 use App\Models\User;
@@ -37,5 +38,6 @@ class DatabaseSeeder extends Seeder
         AuthorBook::factory(30)->create();
         BookGenre::factory(45)->create();
         Review::factory(50)->create();
+        Critique::factory(15)->create();
     }
 }
