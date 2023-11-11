@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreign('user_id');
             $table->foreign('book_id');
-            $table->foreign('review_id');
         });
     }
 
