@@ -22,4 +22,14 @@ class Book extends Model
             'author_id'
         );
     }
+
+    public function genres()
+    {
+        return $this->belongsToMany(
+            Genre::class,
+            'book_genre',
+            'book_id',
+            'genre_id'
+        );
+    }
 }
