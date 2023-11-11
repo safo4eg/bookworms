@@ -7,6 +7,7 @@ use App\Models\Author;
 use App\Models\AuthorBook;
 use App\Models\Book;
 use App\Models\BookGenre;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -29,10 +30,11 @@ class DatabaseSeeder extends Seeder
             GenreSeeder::class
         ]);
 
-        User::factory(1)->create();
+        User::factory(10)->create();
         Author::factory(21)->create();
         Book::factory(30)->create();
         AuthorBook::factory(30)->create();
         BookGenre::factory(45)->create();
+        Review::factory(5)->create();
     }
 }
