@@ -13,4 +13,14 @@ class Author extends Model
     protected $guarded = [];
     protected $table = 'authors';
     protected $primaryKey = 'id';
+
+    public function books()
+    {
+        return $this->belongsToMany(
+            Book::class,
+            'author_book',
+            'author_id',
+            'book_id'
+        );
+    }
 }
