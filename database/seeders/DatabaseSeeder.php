@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             RankSeeder::class,
-            GenreSeeder::class
+            GenreSeeder::class,
+            EvaluationTypeSeeder::class
         ]);
 
         User::factory(10)->create();
