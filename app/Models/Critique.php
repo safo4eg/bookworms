@@ -17,4 +17,9 @@ class Critique extends Model
     {
         return $this->morphMany(Comment::class,'commentable');
     }
+
+    public function evaluations()
+    {
+        return $this->morphMany(Evaluation::class, 'evaluationable');
+    }
 }
