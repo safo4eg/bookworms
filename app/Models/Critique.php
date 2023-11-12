@@ -12,4 +12,9 @@ class Critique extends Model
     protected $guarded = [];
     protected $table = 'critiques';
     protected $primaryKey = 'id';
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class,'commentable');
+    }
 }
