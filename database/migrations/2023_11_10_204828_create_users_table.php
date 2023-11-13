@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('role_id');
-            $table->unsignedTinyInteger('rank_id');
+            $table->unsignedTinyInteger('role_id')->default(1);
+            $table->unsignedTinyInteger('rank_id')->default(1);
             $table->unsignedBigInteger('points')->default(0);
             $table->string('login', 32)->unique();
             $table->string('email', 256)->nullable()->unique();
