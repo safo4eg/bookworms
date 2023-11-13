@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -34,7 +35,7 @@ class Handler extends ExceptionHandler
                         'error' => [
                             'message' => 'Validation errors',
                             'status' => $e->status,
-                            'fields' => $e->errors()
+                            'fields' => array_combine(array_keys($e->errors()) ,Arr::collapse($e->errors()))
                         ]
                     ]);
                 }
