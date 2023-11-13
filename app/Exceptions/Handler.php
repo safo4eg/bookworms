@@ -32,7 +32,7 @@ class Handler extends ExceptionHandler
                 if($e instanceof ValidationException) {
                     return new JsonResponse([
                         'error' => [
-                            'message' => $e->getMessage(),
+                            'message' => 'Validation errors',
                             'status' => $e->status,
                             'fields' => $e->errors()
                         ]
