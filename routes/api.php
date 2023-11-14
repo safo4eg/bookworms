@@ -23,5 +23,5 @@ Route::controller(Auth::class)->group(function () {
 });
 
 Route::apiResources([
-    'author' => AuthorController::class
+    'authors' => AuthorController::class
 ]);
