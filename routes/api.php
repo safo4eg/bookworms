@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,7 @@ Route::controller(Auth::class)->group(function () {
     Route::post('/login', 'login');
     Route::delete('/logout', 'logout');
 });
+
+Route::apiResources([
+    'author' => AuthorController::class
+]);
