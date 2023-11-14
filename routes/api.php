@@ -18,5 +18,5 @@ use App\Http\Controllers\Auth;
 Route::controller(Auth::class)->group(function () {
     Route::post('/signup', 'signup');
     Route::post('/login', 'login');
-    Route::get('/logout', 'logout');
+    Route::delete('/logout', 'logout');
 });
