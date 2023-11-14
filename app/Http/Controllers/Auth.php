@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\SignupRequest;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
@@ -22,9 +23,9 @@ class Auth extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        return '123';
+
     }
 
     public function logout(Request $request)
