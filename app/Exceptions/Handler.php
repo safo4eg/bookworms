@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -45,12 +46,12 @@ class Handler extends ExceptionHandler
                             'message' => $e->getMessage(),
                         ]
                     ], Response::HTTP_UNAUTHORIZED);
-                } else if($e instanceof \Exception) {
-                    return  new JsonResponse([
+                } else if($e instanceof NotFoundHttpException) {
+                    return new JsonResponse([
                         'error' => [
-                            'message' => $e->getMessage()
+                            'message' => 'Invalid URI'
                         ]
-                    ], $e->getCode());
+                    ], Response::HTTP_NOT_FOUND);
                 }
             }
         });
