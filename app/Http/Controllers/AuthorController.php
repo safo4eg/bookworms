@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use App\Services\QueryString;
 
 class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return AuthorResource::collection(Author::all());
+        $qs = $request->collect();
+        if($qs->isEmpty()) $authors = Author::all();
+        else $authors = QueryString::handle($qs, Author::class, 'authors');
+        return AuthorResource::collection($authors);
     }
 
     /**
