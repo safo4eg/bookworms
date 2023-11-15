@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Services\Helper;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -34,24 +36,20 @@ class Handler extends ExceptionHandler
         $this->renderable(function (Throwable $e, Request $request) {
             if($request->expectsJson()) {
                 if($e instanceof ValidationException) {
-                    return new JsonResponse([
-                        'error' => [
-                            'message' => 'Validation errors',
-                            'fields' => array_combine(array_keys($e->errors()) ,Arr::collapse($e->errors()))
-                        ],
-                    ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                    $error = [
+                        'message' => 'Validation errors',
+                        'fields' => array_combine(array_keys($e->errors()) ,Arr::collapse($e->errors()))
+                    ];
+                    return new JsonResponse(['error' => $error], Response::HTTP_UNPROCESSABLE_ENTITY);
                 } else if($e instanceof AuthenticationException) {
-                    return new JsonResponse([
-                        'error' => [
-                            'message' => $e->getMessage(),
-                        ]
-                    ], Response::HTTP_UNAUTHORIZED);
+                    $error = ['message' => $e->getMessage()];
+                    return new JsonResponse(['error' => $error], Response::HTTP_UNAUTHORIZED);
                 } else if($e instanceof NotFoundHttpException) {
-                    return new JsonResponse([
-                        'error' => [
-                            'message' => 'Invalid URI'
-                        ]
-                    ], Response::HTTP_NOT_FOUND);
+                    $error = ['message' => 'Invalid URI'];
+                    return new JsonResponse(['error' => $error], Response::HTTP_NOT_FOUND);
+                } else if($e instanceof QueryException) {
+                    $error = ['message' => 'Invalid query string'];
+                    return new JsonResponse(['error' => $error], Response::HTTP_BAD_REQUEST);
                 }
             }
         });
