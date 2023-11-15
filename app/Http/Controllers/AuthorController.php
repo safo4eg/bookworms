@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Author\StoreAndUpdateRequest;
+use App\Http\Requests\Author\StoreRequest;
+use App\Http\Requests\Author\UpdateRequest;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\QueryString;
 
 class AuthorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $qs = $request->collect();
@@ -20,33 +22,28 @@ class AuthorController extends Controller
         return AuthorResource::collection($authors);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $payload = $request->validated();
+        $author = Author::create($payload);
+        return new JsonResponse(new AuthorResource($author), Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Author $author)
     {
         return new AuthorResource($author);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Author $author)
+    public function update(UpdateRequest $request, Author $author)
     {
-        //
+        $payload = $request->validated();
+        $author->update($payload);
+        return new JsonResponse(
+            new AuthorResource($author),
+            Response::HTTP_OK
+        );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Author $author)
     {
         //
