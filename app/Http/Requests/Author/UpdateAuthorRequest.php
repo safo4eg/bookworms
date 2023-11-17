@@ -4,7 +4,7 @@ namespace App\Http\Requests\Author;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class UpdateAuthorRequest extends FormRequest
 {
     use RuleTrait;
     public function authorize(): bool

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Author\StoreAndUpdateRequest;
-use App\Http\Requests\Author\StoreRequest;
-use App\Http\Requests\Author\UpdateRequest;
+use App\Http\Requests\Author\StoreAuthorRequest;
+use App\Http\Requests\Author\UpdateAuthorRequest;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use Illuminate\Http\Response;
@@ -29,7 +29,7 @@ class AuthorController extends Controller
         return AuthorResource::collection($authors);
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreAuthorRequest $request)
     {
         $payload = $request->validated();
         $author = Author::create($payload);
@@ -41,7 +41,7 @@ class AuthorController extends Controller
         return new AuthorResource($author);
     }
 
-    public function update(UpdateRequest $request, Author $author)
+    public function update(UpdateAuthorRequest $request, Author $author)
     {
         $payload = $request->validated();
         $author->update($payload);
