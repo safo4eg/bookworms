@@ -22,8 +22,10 @@ class AuthorController extends Controller
     public function index(Request $request)
     {
         $qs = $request->collect();
-        if($qs->isEmpty()) $authors = Author::all();
-        else $authors = QueryString::handle($qs, Author::class, 'authors');
+        $authors = $qs->isEmpty()
+            ? Author::all()
+            : QueryString::handle($qs, Author::class, 'authors');
+
         return AuthorResource::collection($authors);
     }
 
