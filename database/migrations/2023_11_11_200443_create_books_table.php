@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('image_url', 256);
+            $table->string('image_url', 256)->nullable();
             $table->string('title', 128);
             $table->string('desc', 1024);
             $table->dateTime('date_of_writing');
