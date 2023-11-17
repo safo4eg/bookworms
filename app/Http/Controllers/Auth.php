@@ -23,9 +23,7 @@ class Auth extends Controller
         $payload = $request->validated();
         $user = User::create($payload);
         return new JsonResponse([
-            'data' => [
-                'token' => $user->createToken('token')->plainTextToken
-            ]
+            'data' => ['token' => $user->createToken('token')->plainTextToken]
         ]);
     }
 
@@ -40,9 +38,7 @@ class Auth extends Controller
         }
 
         return new JsonResponse([
-            'data' => [
-                'token' => $user->createToken('token')->plainTextToken
-            ]
+            'data' => ['token' => $user->createToken('token')->plainTextToken]
         ], Response::HTTP_OK);
     }
 
