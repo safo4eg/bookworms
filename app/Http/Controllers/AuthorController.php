@@ -15,6 +15,11 @@ use Psy\Util\Json;
 
 class AuthorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
+        $this->authorizeResource(Author::class, 'author');
+    }
     public function index(Request $request)
     {
         $qs = $request->collect();
