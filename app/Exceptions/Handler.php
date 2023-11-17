@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -47,10 +47,14 @@ class Handler extends ExceptionHandler
                 } else if($e instanceof NotFoundHttpException) {
                     $error = ['message' => 'Invalid URI'];
                     return new JsonResponse(['error' => $error], Response::HTTP_NOT_FOUND);
-                } else if($e instanceof QueryException) {
-                    $error = ['message' => 'Invalid query string'];
-                    return new JsonResponse(['error' => $error], Response::HTTP_BAD_REQUEST);
+                } else if($e instanceof AccessDeniedHttpException) {
+                    $error = ['message' => $e->getMessage()];
+                    return new JsonResponse(['error' => $error], Response::HTTP_UNAUTHORIZED);
                 }
+//                } else if($e instanceof QueryException) {
+//                    $error = ['message' => 'Invalid query string'];
+//                    return new JsonResponse(['error' => $error], Response::HTTP_BAD_REQUEST);
+//                }
             }
         });
     }
