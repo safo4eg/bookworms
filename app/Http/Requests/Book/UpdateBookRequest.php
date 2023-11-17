@@ -9,7 +9,14 @@ class UpdateBookRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return false;
+        return true;
+    }
+
+    public function messages()
+    {
+        return [
+            'image.dimensions' => 'Minimum image width - 1080px, maximum height - 1350px'
+        ];
     }
 
     public function rules(): array

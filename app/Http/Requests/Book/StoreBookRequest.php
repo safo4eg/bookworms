@@ -10,6 +10,14 @@ class StoreBookRequest extends FormRequest
     {
         return true;
     }
+
+    public function messages()
+    {
+        return [
+            'image.dimensions' => 'Minimum image width - 1080px, maximum height - 1350px'
+        ];
+    }
+
     public function rules(): array
     {
         return [
