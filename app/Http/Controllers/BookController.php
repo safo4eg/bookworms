@@ -21,6 +21,7 @@ class BookController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
+        $this->authorizeResource(Book::class, 'book');
     }
 
     public function index(Request $request)
