@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
+use App\Http\Resources\BookResource;
+use App\Models\Author;
 use App\Models\Book;
+use App\Services\QueryString;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -13,38 +17,31 @@ class BookController extends Controller
         $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $qs = $request->collect();
+        $books = $qs->isEmpty()
+            ? Author::all()
+            : QueryString::handle($qs, Book::class, 'books');
 
+        return BookResource::collection($books);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreBookRequest $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Book $book)
     {
-        //
+        return new BookResource($book);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateBookRequest $request, Book $book)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Book $book)
     {
         //
