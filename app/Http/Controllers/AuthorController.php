@@ -45,10 +45,7 @@ class AuthorController extends Controller
     {
         $payload = $request->validated();
         $author->update($payload);
-        return new JsonResponse(
-            new AuthorResource($author),
-            Response::HTTP_OK
-        );
+        return new JsonResponse(new AuthorResource($author), Response::HTTP_OK);
     }
 
     public function destroy(Author $author)

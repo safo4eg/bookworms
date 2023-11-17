@@ -50,7 +50,7 @@ class BookController extends Controller
         $image_url = Storage::url($image_path);
         $book->update(['image_url' => $image_url]);
 
-        return new BookResource($book);
+        return new JsonResponse(new BookResource($book), Response::HTTP_CREATED);
     }
 
     public function show(Book $book)
@@ -60,7 +60,7 @@ class BookController extends Controller
 
     public function update(UpdateBookRequest $request, Book $book)
     {
-        //
+
     }
 
     public function destroy(Book $book)
