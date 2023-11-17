@@ -17,7 +17,7 @@ class BookFactory extends Factory
     public function definition(): array
     {
         return [
-            'image_path' => $this->faker->imageUrl(640, 480, 'animals', true),
+            'image_url' => $this->faker->imageUrl(640, 480, 'animals', true),
             'title' => $this->faker->realTextBetween(20, 128),
             'desc' => $this->faker->realTextBetween(200, 1024),
             'date_of_writing' => $this->faker->dateTimeThisCentury()
