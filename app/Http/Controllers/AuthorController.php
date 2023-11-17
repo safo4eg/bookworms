@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\QueryString;
+use Psy\Util\Json;
 
 class AuthorController extends Controller
 {
@@ -46,6 +47,7 @@ class AuthorController extends Controller
 
     public function destroy(Author $author)
     {
-        //
+        $author->delete();
+        return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }
 }
