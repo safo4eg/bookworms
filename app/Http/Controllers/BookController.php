@@ -11,6 +11,7 @@ use App\Services\QueryString;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -34,10 +35,8 @@ class BookController extends Controller
 
     public function store(StoreBookRequest $request)
     {
-        $payload = $request->collect()
-            ->except('image')
-            ->toArray();
-        $book = Book::create($payload);
+        $payload = $request->validated();
+        unset($payload['image']);
 
         if(!$request->hasFile('image') OR !$request->file('image')->isValid()) {
             throw ValidationException::withMessages([
@@ -45,10 +44,9 @@ class BookController extends Controller
             ]);
         }
 
-        $image_path = "Book/{$book->id}";
-        $image_path = $request->image->store($image_path);
-        $image_url = Storage::url($image_path);
-        $book->update(['image_url' => $image_url]);
+        $image_path = $request->image->store('Book');
+        $payload['image_url'] = Storage::url($image_path);
+        $book = Book::create($payload);
 
         return new JsonResponse(new BookResource($book), Response::HTTP_CREATED);
     }
@@ -60,7 +58,26 @@ class BookController extends Controller
 
     public function update(UpdateBookRequest $request, Book $book)
     {
+        $payload = $request->validated();
+        unset($payload['image']);
 
+        if($request->hasFile('image')) {
+            if($request->file('image')->isValid()) {
+                $last_image_url = $book->image_url;
+                preg_match('#^.+\/storage\/(?<last_path>.+)$#', $last_image_url, $matches);
+                Storage::delete($matches['last_path']);
+
+                $image_path = $request->image->store('Book');
+                $payload['image_url'] = Storage::url($image_path);
+            } else {
+                throw ValidationException::withMessages([
+                    'image' => 'Failed to load image'
+                ]);
+            }
+        }
+
+        $book->update($payload);
+        return new JsonResponse(new BookResource($book), Response::HTTP_OK);
     }
 
     public function destroy(Book $book)

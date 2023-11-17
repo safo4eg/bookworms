@@ -15,7 +15,8 @@ class UpdateBookRequest extends FormRequest
     public function messages()
     {
         return [
-            'image.dimensions' => 'Minimum image width - 1080px, maximum height - 1350px'
+            'image.dimensions' => 'Minimum image width - 1080px, maximum height - 1350px',
+            'date_of_writing.date' => 'Invalid date format. The format should be YYYY-MM-DD'
         ];
     }
 
