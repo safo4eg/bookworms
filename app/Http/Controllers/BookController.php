@@ -82,6 +82,7 @@ class BookController extends Controller
 
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }
 }
