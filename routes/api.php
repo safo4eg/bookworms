@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\GenreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +25,6 @@ Route::controller(Auth::class)->group(function () {
 
 Route::apiResources([
     'authors' => AuthorController::class,
-    'books' => BookController::class
+    'books' => BookController::class,
+    'genres' => GenreController::class
 ]);
