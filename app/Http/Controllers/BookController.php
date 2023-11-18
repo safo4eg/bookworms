@@ -49,7 +49,7 @@ class BookController extends Controller
         $payload['image_url'] = Storage::url($image_path);
         $book = Book::create($payload);
 
-        return new JsonResponse(new BookResource($book), Response::HTTP_CREATED);
+        return new BookResource($book);
     }
 
     public function show(Book $book)
@@ -78,7 +78,7 @@ class BookController extends Controller
         }
 
         $book->update($payload);
-        return new JsonResponse(new BookResource($book), Response::HTTP_OK);
+        return new BookResource($book);
     }
 
     public function destroy(Book $book)

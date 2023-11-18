@@ -32,7 +32,7 @@ class AuthorController extends Controller
     {
         $payload = $request->validated();
         $author = Author::create($payload);
-        return new JsonResponse(new AuthorResource($author), Response::HTTP_CREATED);
+        return new AuthorResource($author);
     }
 
     public function show(Author $author)
@@ -44,7 +44,7 @@ class AuthorController extends Controller
     {
         $payload = $request->validated();
         $author->update($payload);
-        return new JsonResponse(new AuthorResource($author), Response::HTTP_OK);
+        return new AuthorResource($author);
     }
 
     public function destroy(Author $author)
