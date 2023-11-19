@@ -22,7 +22,16 @@ class AuthorResource extends JsonResource
             'date_of_birth' => $this->date_of_birth,
             'date_of_death' => $this->date_of_death,
             'origin' => $this->origin,
-            'desc' => $this->desc
+            'desc' => $this->desc,
+            'books' => $this->when(
+                request()->route()->named(
+                    'authors.index',
+                    'authors.show',
+                    'authors.store',
+                    'authors.update'
+                ),
+                BookResource::collection($this->books)
+            )
         ];
     }
 }

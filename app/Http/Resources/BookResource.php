@@ -15,7 +15,15 @@ class BookResource extends JsonResource
             'title' => $this->title,
             'desc' => $this->desc,
             'date_of_writing' => $this->date_of_writing,
-            'authors' => $this->authors->isNotEmpty()? AuthorResource::collection($this->authors): null
+            'authors' => $this->when(
+                request()->route()->named(
+                    'books.index',
+                    'books.store',
+                    'books.update',
+                    'books.store'
+                ),
+                AuthorResource::collection($this->authors)
+            )
         ];
     }
 }
