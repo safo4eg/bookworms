@@ -6,15 +6,14 @@ use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Author;
-use App\Models\AuthorBook;
 use App\Models\Book;
 use App\Services\BookDependencyService;
 use App\Services\QueryString;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
@@ -30,7 +29,7 @@ class BookController extends Controller
     {
         $qs = $request->collect();
         $books = $qs->isEmpty()
-            ? Author::all()
+            ? Book::all()
             : QueryString::handle($qs, Book::class, 'books');
 
         return BookResource::collection($books);
