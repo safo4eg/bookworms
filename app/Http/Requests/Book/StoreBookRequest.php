@@ -25,7 +25,9 @@ class StoreBookRequest extends FormRequest
             'image' => ['required', 'image', 'dimensions:min_width=1080,min_height=1350'],
             'title' => ['required', 'string', 'max:128'],
             'desc' => ['required', 'string', 'max:1024'],
-            'date_of_writing' => ['required', 'string', 'date:YY-MM-DD']
+            'date_of_writing' => ['required', 'string', 'date:YY-MM-DD'],
+            'authors' => ['nullable'],
+            'genres' => ['required']
         ];
     }
 }

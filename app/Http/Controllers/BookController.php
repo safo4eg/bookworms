@@ -6,7 +6,9 @@ use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Author;
+use App\Models\AuthorBook;
 use App\Models\Book;
+use App\Services\BookDependencyService;
 use App\Services\QueryString;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -36,8 +38,7 @@ class BookController extends Controller
 
     public function store(StoreBookRequest $request)
     {
-        $payload = $request->validated();
-        unset($payload['image']);
+        $bookEntryData = $request->only(['title', 'desc', 'date_of_writing']);
 
         if(!$request->hasFile('image') OR !$request->file('image')->isValid()) {
             throw ValidationException::withMessages([
@@ -45,9 +46,10 @@ class BookController extends Controller
             ]);
         }
 
-        $image_path = $request->image->store('Book');
-        $payload['image_url'] = Storage::url($image_path);
-        $book = Book::create($payload);
+        $imagePath = $request->image->store('Book');
+        $bookEntryData['image_url'] = Storage::url($imagePath);
+        $book = Book::create($bookEntryData);
+        BookDependencyService::handle($request, $book);
 
         return new BookResource($book);
     }
@@ -59,8 +61,7 @@ class BookController extends Controller
 
     public function update(UpdateBookRequest $request, Book $book)
     {
-        $payload = $request->validated();
-        unset($payload['image']);
+        $bookUpdateData = $request->only(['title', 'desc', 'date_of_writing']);
 
         if($request->hasFile('image')) {
             if($request->file('image')->isValid()) {
@@ -69,7 +70,7 @@ class BookController extends Controller
                 Storage::delete($matches['last_path']);
 
                 $image_path = $request->image->store('Book');
-                $payload['image_url'] = Storage::url($image_path);
+                $bookUpdateData['image_url'] = Storage::url($image_path);
             } else {
                 throw ValidationException::withMessages([
                     'image' => 'Failed to load image'
@@ -77,7 +78,9 @@ class BookController extends Controller
             }
         }
 
-        $book->update($payload);
+        $book->update($bookUpdateData);
+        BookDependencyService::handle($request, $book);
+
         return new BookResource($book);
     }
 
