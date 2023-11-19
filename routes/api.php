@@ -26,5 +26,6 @@ Route::controller(Auth::class)->group(function () {
 Route::apiResources([
     'authors' => AuthorController::class,
     'books' => BookController::class,
-    'genres' => GenreController::class
 ]);
+
+Route::resource('genres', GenreController::class)->except('show');

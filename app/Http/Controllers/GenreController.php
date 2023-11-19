@@ -35,11 +35,6 @@ class GenreController extends Controller
         return new GenreResource(Genre::create($payload));
     }
 
-    public function show(Genre $genre)
-    {
-        return new GenreResource($genre);
-    }
-
     public function update(UpdateGenreRequest $request, Genre $genre)
     {
         $genre->update($request->validated());
