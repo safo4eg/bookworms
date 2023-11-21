@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\RatingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,4 @@ Route::apiResources([
 ]);
 
 Route::resource('genres', GenreController::class)->except('show');
+Route::resource('ratings', RatingController::class)->except(['index', 'show']);
