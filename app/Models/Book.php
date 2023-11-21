@@ -32,4 +32,9 @@ class Book extends Model
             'genre_id'
         );
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'book_id', 'id');
+    }
 }

@@ -12,4 +12,9 @@ class Rating extends Model
     protected $guarded = [];
     protected $table = 'ratings';
     protected $primaryKey = 'id';
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class, 'book_id', 'id');
+    }
 }
