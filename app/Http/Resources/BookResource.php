@@ -18,11 +18,20 @@ class BookResource extends JsonResource
             'authors' => $this->when(
                 request()->route()->named(
                     'books.index',
-                    'books.store',
+                    'books.show',
                     'books.update',
                     'books.store'
                 ),
                 AuthorResource::collection($this->authors)
+            ),
+            'genres' => $this->when(
+                request()->route()->named(
+                    'books.index',
+                    'books.show',
+                    'books.store',
+                    'books.update',
+                ),
+                GenreResource::collection($this->genres)
             )
         ];
     }
