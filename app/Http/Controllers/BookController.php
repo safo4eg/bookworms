@@ -11,14 +11,16 @@ use App\Services\QueryString;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class BookController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
+        $this->middleware(['auth:sanctum'])->only(['store', 'update', 'destroy']);
         $this->authorizeResource(Book::class, 'book');
     }
 

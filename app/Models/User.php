@@ -16,21 +16,16 @@ class User extends Authenticatable
     protected $guarded = [];
     protected $primaryKey = 'id';
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'user_id', 'id');
+    }
 }

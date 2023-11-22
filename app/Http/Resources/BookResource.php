@@ -2,13 +2,24 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 
 class BookResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $userRating = null;
+        $user = auth()->user();
+        if(isset($user)) {
+            $userRating = $user->ratings()
+                ->where('book_id', $this->id)
+                ->first();
+        }
+        $responseRating = isset($userRating)? $userRating: new Rating();
+
         return [
             'id' => $this->id,
             'image_url' => $this->image_url,
@@ -32,7 +43,12 @@ class BookResource extends JsonResource
                     'books.update',
                 ),
                 GenreResource::collection($this->genres)
-            )
+            ),
+
+            'rating' => [
+                'avg' => $this->ratings()->avg('rating'),
+                'user' => new RatingResource($responseRating)
+            ],
         ];
     }
 }
