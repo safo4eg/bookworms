@@ -18,7 +18,6 @@ class BookResource extends JsonResource
                 ->where('book_id', $this->id)
                 ->first();
         }
-        $responseRating = isset($userRating)? $userRating: new Rating();
 
         return [
             'id' => $this->id,
@@ -45,10 +44,9 @@ class BookResource extends JsonResource
                 GenreResource::collection($this->genres)
             ),
 
-            'rating' => [
-                'avg' => $this->ratings()->avg('rating'),
-                'user' => new RatingResource($responseRating)
-            ],
+            'rating' => isset($userRating)
+                ? new RatingResource($userRating)
+                : ['avg' => $this->ratings()->avg('rating'), 'id' => null, 'rating' => null]
         ];
     }
 }
