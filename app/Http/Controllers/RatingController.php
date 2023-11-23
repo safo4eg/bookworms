@@ -9,19 +9,29 @@ use App\Models\Book;
 use App\Models\Rating;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class RatingController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:sanctum');
-//        $this->authorizeResource(Rating::class, 'rating');
+        $this->authorizeResource(Rating::class, 'rating');
     }
     public function store(StoreRatingRequest $request, Book $book)
     {
         $payload = $request->validated();
         $payload['book_id'] = $book->id;
-        $rating = Rating::create($payload);
+
+        $rating = Rating::where('user_id', $payload['user_id'])
+            ->where('book_id', $payload['book_id'])
+            ->first();
+
+        if($rating) {
+            throw ValidationException::withMessages([
+                'book_id' => 'The table entry has already been created, use the update method'
+            ]);
+        } else $rating = Rating::create($payload);
         return new RatingResource($rating);
     }
     public function update(UpdateRatingRequest $request, Rating $rating)
