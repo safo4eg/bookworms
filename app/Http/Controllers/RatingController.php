@@ -9,6 +9,7 @@ use App\Models\Book;
 use App\Models\Rating;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class RatingController extends Controller
@@ -22,6 +23,7 @@ class RatingController extends Controller
     {
         $payload = $request->validated();
         $payload['book_id'] = $book->id;
+        $payload['user_id'] = $request->user()->id;
 
         $rating = Rating::where('user_id', $payload['user_id'])
             ->where('book_id', $payload['book_id'])

@@ -23,7 +23,6 @@ class StoreRatingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'exists:users,id'],
             'rating' => ['required', Rule::in([1, 2, 3, 4, 5])]
         ];
     }

@@ -11,8 +11,6 @@ class RatingPolicy
 
     public function create(User $user): bool
     {
-        $userId = request()->get('user_id');
-        if($user->id != $userId) return false;
         return true;
     }
 
