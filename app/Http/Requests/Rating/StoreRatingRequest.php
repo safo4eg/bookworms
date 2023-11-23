@@ -24,7 +24,6 @@ class StoreRatingRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'exists:users,id'],
-            'book_id' => ['required', 'exists:books,id'],
             'rating' => ['required', Rule::in([1, 2, 3, 4, 5])]
         ];
     }

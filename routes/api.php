@@ -18,5 +18,7 @@ Route::apiResources([
     'books' => BookController::class,
 ]);
 
-Route::resource('genres', GenreController::class)->except('show');
-Route::resource('ratings', RatingController::class)->except(['index', 'show']);
+Route::apiResource('genres', GenreController::class)->except('show');
+Route::apiResource('books.ratings', RatingController::class)
+    ->except(['index', 'show'])
+    ->shallow();
