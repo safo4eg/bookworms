@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class Review extends Model
 {
@@ -12,6 +14,16 @@ class Review extends Model
     protected $guarded = [];
     protected $table = 'reviews';
     protected $primaryKey = 'id';
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d H:i');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d H:i');
+    }
 
     public function comments()
     {
@@ -32,4 +44,5 @@ class Review extends Model
     {
         return $this->belongsTo(Book::class, 'book_id', 'id');
     }
+
 }
