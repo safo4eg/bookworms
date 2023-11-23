@@ -37,4 +37,9 @@ class Book extends Model
     {
         return $this->hasMany(Rating::class, 'book_id', 'id');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'book_id', 'id');
+    }
 }
