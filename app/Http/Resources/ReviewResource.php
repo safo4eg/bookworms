@@ -10,13 +10,25 @@ class ReviewResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        return [
+        $array = [
             'id' => $this->id,
-            'user_id' => $this->user->id,
-            'book_id' => $this->book->id,
             'text' => $this->text,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+            'book_id' => $this->book->id,
+            'user' => new UserResource($this->user)
         ];
+
+        if(request()->route()->named(
+            'books.index',
+            'books.show',
+            'books.store',
+            'books.update'
+        ))
+        {
+            unset($array['book_id']);
+        }
+
+        return $array;
     }
 }
