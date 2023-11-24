@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Book;
 
-use App\Models\Rating;
+use App\Http\Resources\GenreResource;
+use App\Http\Resources\RatingResource;
+use App\Http\Resources\ReviewResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Log;
+use App\Http\Resources\Author;
+use App\Http\Resources\Review;
 
 class BookResource extends JsonResource
 {
@@ -25,29 +28,11 @@ class BookResource extends JsonResource
             'title' => $this->title,
             'desc' => $this->desc,
             'date_of_writing' => $this->date_of_writing,
-            'authors' => $this->when(
-                request()->route()->named(
-                    'books.index',
-                    'books.show',
-                    'books.update',
-                    'books.store'
-                ),
-                AuthorResource::collection($this->authors)
-            ),
-            'genres' => $this->when(
-                request()->route()->named(
-                    'books.index',
-                    'books.show',
-                    'books.store',
-                    'books.update',
-                ),
-                GenreResource::collection($this->genres)
-            ),
-
+            'authors' => Author\BookResource::collection($this->authors),
+            'genres' => GenreResource::collection($this->genres),
             'rating' => isset($userRating)
                 ? new RatingResource($userRating)
                 : ['avg' => $this->ratings()->avg('rating'), 'id' => null, 'rating' => null],
-
             'reviews' => ReviewResource::collection($this->reviews()->offset(0)->limit(3)->get())
         ];
     }

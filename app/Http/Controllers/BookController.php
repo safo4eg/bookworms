@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
-use App\Http\Resources\BookResource;
+use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
 use App\Services\BookDependencyService;
 use App\Services\QueryString;
