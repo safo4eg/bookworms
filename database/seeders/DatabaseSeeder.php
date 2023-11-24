@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         Book::factory(30)->create();
         AuthorBook::factory(30)->create();
         BookGenre::factory(45)->create();
-//        Review::factory(50)->create();
+        Review::factory(50)->create();
         Critique::factory(15)->create();
     }
 }
