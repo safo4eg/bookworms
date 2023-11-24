@@ -7,7 +7,10 @@ use App\Http\Requests\Review\UpdateReviewRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Book;
 use App\Models\Review;
+use App\Services\QueryString;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
 class ReviewController extends Controller
@@ -17,9 +20,9 @@ class ReviewController extends Controller
         $this->middleware('auth:sanctum')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Request $request, Book $book)
     {
-        //
+        return ReviewResource::collection($book->reviews);
     }
     public function store(StoreReviewRequest $request, Book $book)
     {
@@ -44,15 +47,18 @@ class ReviewController extends Controller
 
     public function show(Review $review)
     {
-        // показ со всеми комментами
+        return new ReviewResource($review);
     }
     public function update(UpdateReviewRequest $request, Review $review)
     {
-        //
+        $payload = $request->validated();
+        $review->update($payload);
+        return new ReviewResource($review);
     }
 
     public function destroy(Review $review)
     {
-        //
+        $review->delete();
+        return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }
 }
