@@ -13,7 +13,7 @@ class StoreCritiqueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'text' => ['required', 'min:5', 'max:2048']
         ];
     }
 }
