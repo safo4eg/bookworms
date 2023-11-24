@@ -1,17 +1,13 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Author;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Book;
 
 class AuthorResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [
@@ -23,15 +19,7 @@ class AuthorResource extends JsonResource
             'date_of_death' => $this->date_of_death,
             'origin' => $this->origin,
             'desc' => $this->desc,
-            'books' => $this->when(
-                request()->route()->named(
-                    'authors.index',
-                    'authors.show',
-                    'authors.store',
-                    'authors.update'
-                ),
-                BookResource::collection($this->books)
-            )
+            'books' => Book\AuthorResource::collection($this->books)
         ];
     }
 }

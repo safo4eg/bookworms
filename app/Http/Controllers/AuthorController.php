@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Author\StoreAuthorRequest;
 use App\Http\Requests\Author\UpdateAuthorRequest;
-use App\Http\Resources\AuthorResource;
+use App\Http\Resources\Author\AuthorResource;
 use App\Models\Author;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
