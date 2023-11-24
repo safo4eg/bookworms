@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Critique extends Model
 {
@@ -12,6 +13,16 @@ class Critique extends Model
     protected $guarded = [];
     protected $table = 'critiques';
     protected $primaryKey = 'id';
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d H:i');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d H:i');
+    }
 
     public function comments()
     {
