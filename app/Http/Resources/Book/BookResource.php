@@ -8,7 +8,7 @@ use App\Http\Resources\ReviewResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Author;
-use App\Http\Resources\Review;
+use App\Http\Resources\Critique;
 
 class BookResource extends JsonResource
 {
@@ -33,7 +33,8 @@ class BookResource extends JsonResource
             'rating' => isset($userRating)
                 ? new RatingResource($userRating)
                 : ['avg' => $this->ratings()->avg('rating'), 'id' => null, 'rating' => null],
-            'reviews' => ReviewResource::collection($this->reviews()->offset(0)->limit(3)->get())
+            'reviews' => ReviewResource::collection($this->reviews()->offset(0)->limit(3)->get()),
+            'critiques' => Critique\BookResource::collection($this->critiques)
         ];
     }
 }
