@@ -46,7 +46,9 @@ class BookResource extends JsonResource
 
             'rating' => isset($userRating)
                 ? new RatingResource($userRating)
-                : ['avg' => $this->ratings()->avg('rating'), 'id' => null, 'rating' => null]
+                : ['avg' => $this->ratings()->avg('rating'), 'id' => null, 'rating' => null],
+
+            'reviews' => ReviewResource::collection($this->reviews()->offset(0)->limit(3)->get())
         ];
     }
 }
