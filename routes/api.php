@@ -7,6 +7,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CritiqueController;
 
 Route::controller(Auth::class)->group(function () {
     Route::post('/signup', 'signup');
@@ -24,4 +25,6 @@ Route::apiResource('books.ratings', RatingController::class)
     ->except(['index', 'show'])
     ->shallow();
 Route::apiResource('books.reviews', ReviewController::class)
+    ->shallow();
+Route::apiResource('books.critiques', CritiqueController::class)
     ->shallow();
