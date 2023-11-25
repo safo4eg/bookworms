@@ -7,6 +7,8 @@ use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Comment;
 use App\Models\Review;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class ReviewCommentController extends Controller
 {
@@ -15,9 +17,9 @@ class ReviewCommentController extends Controller
         $this->middleware('auth:sanctum')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Review $review)
     {
-        //
+        return CommentResource::collection($review->comments);
     }
 
     public function store(StoreCommentRequest $request, Review $review)
@@ -32,16 +34,19 @@ class ReviewCommentController extends Controller
 
     public function show(Comment $comment)
     {
-        //
+        return new CommentResource($comment);
     }
 
     public function update(UpdateCommentRequest $request, Comment $comment)
     {
-        //
+        $payload = $request->validated();
+        $comment->update($payload);
+        return new CommentResource($comment);
     }
 
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }
 }
