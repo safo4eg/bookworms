@@ -10,15 +10,12 @@ use App\Models\Critique;
 
 class CritiqueCommentController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum')->except('index', 'show');
-    }
 
-    public function index()
+    public function index(Critique $critique)
     {
 
     }
+
     public function store(StoreCommentRequest $request, Critique $critique)
     {
         $payload = $request->validated();
@@ -29,17 +26,4 @@ class CritiqueCommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function show(Comment $comment)
-    {
-        return new CommentResource($comment);
-    }
-
-    public function update(UpdateCommentRequest $request, Comment $comment)
-    {
-        //
-    }
-    public function destroy(Comment $comment)
-    {
-        //
-    }
 }

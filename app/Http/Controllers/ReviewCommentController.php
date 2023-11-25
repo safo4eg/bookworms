@@ -32,22 +32,4 @@ class ReviewCommentController extends Controller
         $comment = Comment::create($payload);
         return new CommentResource($comment);
     }
-
-    public function show(Comment $comment)
-    {
-        return new CommentResource($comment);
-    }
-
-    public function update(UpdateCommentRequest $request, Comment $comment)
-    {
-        $payload = $request->validated();
-        $comment->update($payload);
-        return new CommentResource($comment);
-    }
-
-    public function destroy(Comment $comment)
-    {
-        $comment->delete();
-        return new JsonResponse([], Response::HTTP_NO_CONTENT);
-    }
 }
