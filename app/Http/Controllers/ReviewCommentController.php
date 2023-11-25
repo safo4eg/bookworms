@@ -15,6 +15,7 @@ class ReviewCommentController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->authorizeResource(Comment::class, 'comment');
     }
 
     public function index(Review $review)
