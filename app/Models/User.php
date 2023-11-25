@@ -24,6 +24,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function getIsModerAttribute()
+    {
+        return ($this->role->title === 'Модератор')? true: false;
+    }
+
     public function ratings()
     {
         return $this->hasMany(Rating::class, 'user_id', 'id');
@@ -37,5 +42,10 @@ class User extends Authenticatable
     public function critiques()
     {
         return $this->hasMany(Critique::class, 'user_id', 'id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 }
