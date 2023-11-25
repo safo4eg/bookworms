@@ -9,6 +9,7 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CritiqueController;
 use App\Http\Controllers\ReviewCommentController;
+use App\Http\Controllers\CritiqueCommentController;
 
 Route::controller(Auth::class)->group(function () {
     Route::post('/signup', 'signup');
@@ -32,4 +33,6 @@ Route::apiResource('books.critiques', CritiqueController::class)
     ->shallow();
 
 Route::apiResource('reviews.comments', ReviewCommentController::class)
+    ->shallow();
+Route::apiResource('critiques.comments', CritiqueCommentController::class)
     ->shallow();
