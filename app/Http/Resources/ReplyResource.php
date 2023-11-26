@@ -15,6 +15,10 @@ class ReplyResource extends JsonResource
             'text' => $this->text,
             'comment' => ['id' => $this->comment->id],
             'user' => new UserResource($this->user),
+            'children' => $this->when(
+                isset($this->children),
+                ReplyResource::collection($this->children)
+            ),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
