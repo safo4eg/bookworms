@@ -12,7 +12,7 @@ class CommentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->only(['update', 'destroy']);
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
         $this->authorizeResource(Comment::class, 'comment');
     }
 
