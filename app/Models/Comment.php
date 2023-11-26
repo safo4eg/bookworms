@@ -28,11 +28,6 @@ class Comment extends Model
         return $this->morphTo();
     }
 
-    public function comments()
-    {
-        return $this->morphMany(Comment::class,'commentable');
-    }
-
     public function evaluations()
     {
         return $this->morphMany(Evaluation::class, 'evaluationable');
@@ -41,5 +36,10 @@ class Comment extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class, 'comment_id', 'id');
     }
 }

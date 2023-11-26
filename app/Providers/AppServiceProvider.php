@@ -20,7 +20,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             'review' => Review::class,
-            'comment' => Comment::class,
             'critique' => Critique::class
         ]);
     }
