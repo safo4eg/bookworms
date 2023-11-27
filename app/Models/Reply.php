@@ -35,4 +35,9 @@ class Reply extends Model
     {
         return $this->belongsTo(Comment::class, 'comment_id', 'id');
     }
+
+    public function evaluations()
+    {
+        return $this->morphMany(Evaluation::class, 'evaluationable');
+    }
 }
