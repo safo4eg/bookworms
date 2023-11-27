@@ -45,7 +45,7 @@ Route::apiResource('critiques.comments', CritiqueCommentController::class)
     ->shallow();
 
 Route::apiResource('replies', ReplyController::class)
-    ->except(['index', 'store']);
+    ->only(['update', 'destroy']);
 Route::apiResource('comments.replies', CommentReplyController::class)
     ->only(['index', 'store'])
     ->shallow();
