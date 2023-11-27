@@ -6,8 +6,6 @@ use App\Http\Requests\Reply\StoreReplyRequest;
 use App\Http\Resources\ReplyResource;
 use App\Models\Comment;
 use App\Models\Reply;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class CommentReplyController extends Controller
 {

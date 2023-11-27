@@ -11,6 +11,7 @@ use App\Http\Controllers\CritiqueController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReviewCommentController;
 use App\Http\Controllers\CritiqueCommentController;
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CommentReplyController;
 
 Route::controller(Auth::class)->group(function () {
@@ -43,6 +44,8 @@ Route::apiResource('critiques.comments', CritiqueCommentController::class)
     ->only(['index', 'store'])
     ->shallow();
 
+Route::apiResource('replies', ReplyController::class)
+    ->except(['index', 'store']);
 Route::apiResource('comments.replies', CommentReplyController::class)
     ->only(['index', 'store'])
     ->shallow();
