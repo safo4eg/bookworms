@@ -13,6 +13,7 @@ use App\Http\Controllers\ReviewCommentController;
 use App\Http\Controllers\CritiqueCommentController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CommentReplyController;
+use App\Http\Controllers\EvaluationableController;
 
 Route::controller(Auth::class)->group(function () {
     Route::post('/signup', 'signup');
@@ -49,3 +50,11 @@ Route::apiResource('replies', ReplyController::class)
 Route::apiResource('comments.replies', CommentReplyController::class)
     ->only(['index', 'store'])
     ->shallow();
+
+
+Route::controller(EvaluationableController::class)->group(function () {
+    Route::post('/reviews/{review}/evaluations', 'reviewStore');
+    Route::post('/critiques/{critique}/evaluations', 'critiqueStore');
+    Route::post('/comments/{comment}/evaluations', 'commentStore');
+    Route::post('/replies/{reply}/evaluations', 'replyStore');
+});
