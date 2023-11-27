@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Evaluation\StoreEvaluationRequest;
+use App\Http\Resources\EvaluationResource;
 use App\Models\Comment;
 use App\Models\Critique;
+use App\Models\Evaluation;
+use App\Models\EvaluationType;
 use App\Models\Reply;
 use App\Models\Review;
-use Illuminate\Http\Request;
+use App\Services\EvaluationableService;
+use Illuminate\Validation\ValidationException;
 
 class EvaluationableController extends Controller
 {
@@ -15,23 +20,27 @@ class EvaluationableController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function reviewStore(Request $request, Review $review)
+    public function reviewStore(StoreEvaluationRequest $request, Review $review)
     {
-        return 'reviews';
+        $evaluation = EvaluationableService::handle($request, $review);
+        return new EvaluationResource($evaluation);
     }
 
-    public function critiqueStore(Request $request, Critique $critique)
+    public function critiqueStore(StoreEvaluationRequest $request, Critique $critique)
     {
-        return 'critiques';
+        $evaluation = EvaluationableService::handle($request, $critique);
+        return new EvaluationResource($evaluation);
     }
 
-    public function commentStore(Request $request, Comment $comment)
+    public function commentStore(StoreEvaluationRequest $request, Comment $comment)
     {
-        return 'comments';
+        $evaluation = EvaluationableService::handle($request, $comment);
+        return new EvaluationResource($evaluation);
     }
 
-    public function replyStore(Request $request, Reply $reply)
+    public function replyStore(StoreEvaluationRequest $request, Reply $reply)
     {
-        return 'replies';
+        $evaluation = EvaluationableService::handle($request, $reply);
+        return new EvaluationResource($evaluation);
     }
 }
