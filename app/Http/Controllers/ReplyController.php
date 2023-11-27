@@ -24,6 +24,7 @@ class ReplyController extends Controller
 
     public function destroy(Reply $reply)
     {
+        $reply->delete();
         return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }
 }
