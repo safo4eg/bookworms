@@ -4,47 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Reply\StoreReplyRequest;
 use App\Http\Requests\Reply\UpdateReplyRequest;
+use App\Http\Resources\ReplyResource;
 use App\Models\Reply;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class ReplyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth:sanctum');
+        $this->authorizeResource(Reply::class, 'reply');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreReplyRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reply $reply)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateReplyRequest $request, Reply $reply)
     {
-        //
+        $reply->update($request->validated());
+        return new ReplyResource($reply);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Reply $reply)
     {
-        //
+        return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }
 }
