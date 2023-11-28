@@ -8,12 +8,12 @@ use Illuminate\Auth\Access\Response;
 
 class CritiquePolicy
 {
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
         return true;
     }
 
-    public function view(User $user, Critique $critique): bool
+    public function view(?User $user, Critique $critique): bool
     {
         return true;
     }
