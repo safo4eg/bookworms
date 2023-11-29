@@ -8,12 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-use SebastianBergmann\LinesOfCode\LinesOfCode;
 
 class Test
 {
     private static array $clarification;
     private static Request $request;
+    private static string $model;
 
     private static string|null $sort;
     private static string|null $paginate;
@@ -26,15 +26,31 @@ class Test
     {
         self::$clarification = config('clarification');
         self::$request = $request;
+        self::$model = $model;
 
         self::parseQueryString();
-        switch ($model) {
+        switch (self::$model) {
             case Book::class:
                 self::handleBookQuery();
                 break;
         }
+        self::sort();
 
         return self::$builder->get();
+    }
+
+    private static function sort()
+    {
+        if(isset(self::$sort)) {
+            if(!isset(self::$builder)) self::$builder = self::$model::query();
+            $type = 'asc';
+            $field = trim(self::$sort);
+            if(preg_match('#^-.+$#', $field)) {
+                $type = 'desc';
+                $field = preg_replace('#^-#', '', $field);
+            }
+            self::$builder->orderBy($field, $type);
+        }
     }
 
     private static function handleBookQuery(): void
