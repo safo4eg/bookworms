@@ -5,11 +5,12 @@ namespace App\Services;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
-class Test
+class QueryStringService
 {
     private static array $clarification;
     private static Request $request;
@@ -22,7 +23,7 @@ class Test
 
     private static Builder $builder;
 
-    public static function handle(Request $request, string $model): Collection
+    public static function handle(Request $request, string $model): Collection|LengthAwarePaginator
     {
         self::$clarification = config('clarification');
         self::$request = $request;
@@ -36,14 +37,45 @@ class Test
                 break;
         }
         self::sort();
+        self::limit();
+        self::getInstances();
 
-        return self::$builder->get();
+        return self::getInstances();
+    }
+
+    private static function getInstances(): Collection|LengthAwarePaginator
+    {
+        $paginate = trim(self::$paginate);
+        if(!empty($paginate)) {
+            if(!is_numeric($paginate)) {
+                $exceptionMessage = "Value must be a number";
+                self::throwQueryException('limit', $exceptionMessage);
+            }
+            if(!isset(self::$builder)) self::$builder = self::$model::query();
+            return self::$builder->paginate($paginate);
+        } else {
+            if(isset(self::$builder)) return self::$builder->get();
+            else return self::$model::all();
+        }
+    }
+
+    private static function limit()
+    {
+        $limit = trim(self::$limit);
+        if(!empty($limit)) {
+            if(!is_numeric($limit)) {
+                $exceptionMessage = "Value must be a number";
+                self::throwQueryException('limit', $exceptionMessage);
+            }
+            if(!isset(self::$builder)) self::$builder = self::$model::query();
+            self::$builder->offset(0)->limit($limit);
+        }
     }
 
     private static function sort()
     {
         $field = trim(self::$sort);
-        if(isset($field)) {
+        if(!empty($field)) {
             $permittedFields = self::$clarification['sort']['fields'];
             if(!in_array($field, $permittedFields)) {
                 $exceptionMessage = "Field not supported";

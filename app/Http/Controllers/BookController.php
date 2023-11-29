@@ -8,7 +8,7 @@ use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
 use App\Services\BookDependencyService;
 use App\Services\QueryString;
-use App\Services\Test;
+use App\Services\QueryStringService;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -25,14 +25,8 @@ class BookController extends Controller
 
     public function index(Request $request)
     {
-        $books = Test::handle($request, Book::class);
+        $books = QueryStringService::handle($request, Book::class);
         return BookResource::collection($books);
-//        $qs = $request->collect();
-//        $books = $qs->isEmpty()
-//            ? Book::all()
-//            : QueryString::handle($qs, Book::class, 'books');
-//
-//        return BookResource::collection($books);
     }
 
     public function store(StoreBookRequest $request)
