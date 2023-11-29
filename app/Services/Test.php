@@ -32,6 +32,7 @@ class Test
         switch (self::$model) {
             case Book::class:
                 self::handleBookQuery();
+                self::$clarification = config('clarification')['books'];
                 break;
         }
         self::sort();
@@ -41,7 +42,14 @@ class Test
 
     private static function sort()
     {
-        if(isset(self::$sort)) {
+        $field = trim(self::$sort);
+        if(isset($field)) {
+            $permittedFields = self::$clarification['sort']['fields'];
+            if(!in_array($field, $permittedFields)) {
+                $exceptionMessage = "Field not supported";
+                self::throwQueryException($field, $exceptionMessage);
+            }
+
             if(!isset(self::$builder)) self::$builder = self::$model::query();
             $type = 'asc';
             $field = trim(self::$sort);

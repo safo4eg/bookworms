@@ -28,6 +28,10 @@
                 'title' => ['like'],
                 'desc' => ['like'],
                 'rating' => ['avg']
+            ],
+
+            'sort' => [
+                'fields' => ['date_of_writing', 'title']
             ]
         ]
     ];
