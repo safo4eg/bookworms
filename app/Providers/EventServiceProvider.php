@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Listeners\UserPointsAddingSubscriber;
+use App\Models\Critique;
 use App\Models\Review;
+use App\Observers\CritiqueObserver;
 use App\Observers\ReviewObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -26,6 +28,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Review::observe(ReviewObserver::class);
+        Critique::observe(CritiqueObserver::class);
     }
 
     public function shouldDiscoverEvents(): bool
