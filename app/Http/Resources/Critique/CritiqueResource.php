@@ -18,7 +18,11 @@ class CritiqueResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'user' => new UserResource($this->user),
-            'book' => new Book\CritiqueResource($this->book)
+            'book' => new Book\CritiqueResource($this->book),
+            'evaluations' => [
+                'like' => $this->likes,
+                'dislikes' => $this->dislikes
+            ]
         ];
     }
 }

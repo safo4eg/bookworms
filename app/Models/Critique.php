@@ -24,6 +24,20 @@ class Critique extends Model
         return Carbon::parse($value)->format('Y-m-d H:i');
     }
 
+    public function getLikesAttribute()
+    {
+        return $this->evaluations()->whereHas('type', function ($query) {
+            $query->where('title', 'like');
+        })->count();
+    }
+
+    public function getDislikesAttribute()
+    {
+        return $this->evaluations()->whereHas('type', function ($query) {
+            $query->where('title', 'dislike');
+        })->count();
+    }
+
     public function comments()
     {
         return $this->morphMany(Comment::class,'commentable');
