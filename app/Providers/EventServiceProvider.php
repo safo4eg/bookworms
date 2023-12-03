@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Listeners\UserPointsAddingSubscriber;
+use App\Listeners\UserPointsSubscriber;
 use App\Models\Critique;
 use App\Models\Evaluation;
 use App\Models\Review;
@@ -24,7 +24,7 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     protected $subscribe = [
-        UserPointsAddingSubscriber::class
+        UserPointsSubscriber::class
     ];
 
     public function boot(): void
