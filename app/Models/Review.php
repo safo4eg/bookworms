@@ -39,6 +39,15 @@ class Review extends Model
         })->count();
     }
 
+    public function deleteEvaluations()
+    {
+        foreach ($this->evaluations as $evaluation) {
+            Evaluation::withoutEvents(function () use ($evaluation) {
+                $evaluation->delete();
+            });
+        }
+    }
+
     public function comments()
     {
         return $this->morphMany(Comment::class,'commentable');
