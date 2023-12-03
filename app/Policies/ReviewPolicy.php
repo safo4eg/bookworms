@@ -6,7 +6,7 @@ use App\Models\Review;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ReviewPolicy
+class   ReviewPolicy
 {
     public function viewAny(?User $user): bool
     {
