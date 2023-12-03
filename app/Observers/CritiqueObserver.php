@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Events\UserPointsAdding;
+use App\Events\UserPointsTakeAway;
 use App\Models\Critique;
 
 class CritiqueObserver
@@ -14,6 +15,6 @@ class CritiqueObserver
 
     public function deleted(Critique $critique): void
     {
-        //
+        UserPointsTakeAway::dispatch($critique);
     }
 }

@@ -60,6 +60,18 @@ class UserPointsSubscriber
                         break;
                 }
                 break;
+            case Review::class:
+                $review = $event->trigger;
+                $pointsRecipient = $review->user;
+                $points = $pointsRecipient->points - $review->likes + $review->dislike - 1;
+                $review->deleteEvaluations();
+                break;
+            case Critique::class:
+                $critique = $event->trigger;
+                $pointsRecipient = $critique->user;
+                $points = $pointsRecipient->points - ($critique->likes*2) + ($critique->dislikes*2) - 10;
+                $critique->deleteEvaluations();
+                break;
         }
 
         if($points <= 0) $points = 0;

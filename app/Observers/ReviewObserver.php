@@ -3,8 +3,8 @@
 namespace App\Observers;
 
 use App\Events\UserPointsAdding;
+use App\Events\UserPointsTakeAway;
 use App\Models\Review;
-use Illuminate\Support\Facades\Log;
 
 class ReviewObserver
 {
@@ -15,6 +15,6 @@ class ReviewObserver
 
     public function deleted(Review $review): void
     {
-        //
+        UserPointsTakeAway::dispatch($review);
     }
 }
