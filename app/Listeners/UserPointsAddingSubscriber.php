@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\UserPointsAdding;
+use App\Models\Critique;
 use App\Models\Review;
 use Illuminate\Support\Facades\Log;
 
@@ -10,12 +11,21 @@ class UserPointsAddingSubscriber
 {
     public function handlePointsAdding($event)
     {
+        $user = null;
+        $points = null;
 
-        if($event->trigger::class === Review::class) {
-            $user = $event->trigger->user;
-            $points = $user->points + 1;
-            $user->update(['points' => $points]);
+        switch ($event->trigger::class) {
+            case Review::class:
+                $user = $event->trigger->user;
+                $points = $user->points++;
+                break;
+            case Critique::class:
+                $user = $event->trigger->user;
+                $points = $user->points + 10;
+                break;
         }
+
+        $user->update(['points' => $points]);
     }
 
     public function subscribe($event)
