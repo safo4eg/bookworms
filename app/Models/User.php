@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -32,16 +33,19 @@ class User extends Authenticatable
     public function changeRank()
     {
         $rank = Rank::class;
+
         if($this->points >= 0 AND $this->points < 100) {
-            $rank::where('title', 'Новичок')->first();
+            $rank = $rank::where('title', 'Новичок')->first();
         } else if($this->points >= 100 AND $this->points < 500) {
-            $rank::where('title', 'Знаток')->first();
+            $rank = $rank::where('title', 'Знаток')->first();
         } else if($this->points >= 500 AND $this->points < 1000) {
-            $rank::where('title', 'Профи')->first();
+            $rank = $rank::where('title', 'Профи')->first();
         } else if($this->points >= 1000 AND $this->points < 2500) {
-            $rank::where('title', 'Мудрец')->first();
+            $rank = $rank::where('title', 'Мудрец')->first();
         } else if($this->points >= 2500 AND $this->points < 5000) {
-            $rank::where('title', 'Вассерман')->first();
+            $rank = $rank::where('title', 'Оракул')->first();
+        } else if($this->points >= 5000) {
+            $rank = $rank::where('title', 'Вассерман')->first();
         }
 
         User::withoutEvents(function () use($rank) {
