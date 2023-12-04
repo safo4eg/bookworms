@@ -15,6 +15,7 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CommentReplyController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\EvaluationableController;
+use App\Http\Controllers\UserController;
 
 Route::controller(Auth::class)->group(function () {
     Route::post('/signup', 'signup');
@@ -60,3 +61,6 @@ Route::controller(EvaluationableController::class)->group(function () {
     Route::post('/comments/{comment}/evaluations', 'commentStore');
     Route::post('/replies/{reply}/evaluations', 'replyStore');
 });
+
+Route::apiResource('users', UserController::class)
+    ->only(['index', 'update']);
