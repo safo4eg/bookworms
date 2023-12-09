@@ -25,13 +25,15 @@ class   ReviewPolicy
 
     public function update(User $user, Review $review): bool
     {
-        if($user->id !== $review->user->id) return false;
-        return true;
+        if(in_array($user->role_id, [2, 3])) return true;
+        else if($user->role_id === 1 AND $user->id === $review->user->id) return true;
+        else return false;
     }
 
     public function delete(User $user, Review $review): bool
     {
-        if($user->id !== $review->user->id) return false;
-        return true;
+        if(in_array($user->role_id, [2, 3])) return true;
+        else if($user->role_id === 1 AND $user->id === $review->user->id) return true;
+        else return false;
     }
 }

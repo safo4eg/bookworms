@@ -24,14 +24,15 @@ class CommentPolicy
 
     public function update(User $user, Comment $comment): bool
     {
-        if($user->id === $comment->user->id) return true;
+        if(in_array($user->role_id, [2, 3])) return true;
+        else if($user->role_id === 1 AND $user->id === $comment->user->id) return true;
         else return false;
     }
 
     public function delete(User $user, Comment $comment): bool
     {
-        if($user->is_moder) return true;
-        else if($user->id === $comment->user->id) return true;
+        if(in_array($user->role_id, [2, 3])) return true;
+        else if($user->role_id === 1 AND $user->id === $comment->user->id) return true;
         else return false;
     }
 }

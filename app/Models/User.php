@@ -25,11 +25,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getIsModerAttribute()
-    {
-        return ($this->role->title === 'Модератор')? true: false;
-    }
-
     public function changeRank()
     {
         $rank = Rank::class;
